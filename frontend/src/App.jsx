@@ -1,7 +1,20 @@
 import React from "react";
+import { Container } from "react-bootstrap";
+import Header from "./components/Header";
+import Footer from "./components/Footer";
 
 const App = () => {
-  return <div>App</div>;
+  return (
+    <>
+      <Header />
+      <Container>
+        <main className="py-3">
+          <div>hello world</div>
+        </main>
+      </Container>
+      <Footer />
+    </>
+  );
 };
 
 export default App;
