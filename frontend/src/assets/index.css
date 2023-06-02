@@ -51,3 +51,13 @@ components ---
 .product-price {
   color: #ff9e9e;
 }
+
+/*  rating component */
+.rating {
+  display: flex;
+  color: #ff0060;
+}
+.rating p {
+  font-size: 18px;
+  margin-left: 10px;
+}
