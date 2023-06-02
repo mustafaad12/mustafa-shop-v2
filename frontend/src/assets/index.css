@@ -3,6 +3,22 @@
   margin: 0;
   font-family: sans-serif;
 }
+a {
+  text-decoration: none;
+}
+/* 
+screens ---
+1 home screen
+
+components ---
+1 header component
+2 product card component
+ */
+
+/*  home screen */
+.home-screen-title {
+  text-transform: capitalize;
+}
 
 /*  header component */
 .header-nav {
@@ -17,4 +33,21 @@
 .header-links {
   color: white;
   font-size: 20px;
+}
+
+/*  product card component */
+.product-card {
+  height: 90%;
+  margin: 30px 0;
+  transition: 0.5s;
+}
+.product-card:hover {
+  box-shadow: 0 0 15px #87cbb9;
+}
+.product-title {
+  font-size: 15px;
+  color: #000;
+}
+.product-price {
+  color: #ff9e9e;
 }
