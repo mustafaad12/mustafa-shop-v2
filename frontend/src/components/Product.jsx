@@ -1,11 +1,12 @@
 import React from "react";
 import { Card } from "react-bootstrap";
+import { Link } from "react-router-dom";
 
 const Product = ({ product }) => {
   return (
     <>
       <Card className="product-card">
-        <a href={`/product/${product._id}`}>
+        <Link to={`/product/${product._id}`}>
           <Card.Img src={product.image} variant="top" />
 
           <Card.Body>
@@ -17,7 +18,7 @@ const Product = ({ product }) => {
               ${product.price}
             </Card.Text>
           </Card.Body>
-        </a>
+        </Link>
       </Card>
     </>
   );
