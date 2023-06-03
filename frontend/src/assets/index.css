@@ -9,10 +9,12 @@ a {
 /* 
 screens ---
 1 home screen
+2 product screen
 
 components ---
 1 header component
 2 product card component
+3 rating component
  */
 
 /*  home screen */
@@ -20,9 +22,28 @@ components ---
   text-transform: capitalize;
 }
 
+/*  product screen */
+.product-container {
+  margin-top: 50px;
+}
+.btn-block {
+  width: 100%;
+  border-radius: 0;
+  background-color: #080202;
+  border: none;
+  transition: 0.5s;
+}
+.btn-block:hover {
+  background-color: #080202;
+  opacity: 0.7;
+}
+.product-screen-third-list-group {
+  border-radius: 0;
+}
+
 /*  header component */
 .header-nav {
-  background-color: #87cbb9;
+  background-color: #080202;
 }
 .header-logo {
   font-size: 20px;
@@ -49,13 +70,13 @@ components ---
   color: #000;
 }
 .product-price {
-  color: #ff9e9e;
+  color: #080202;
 }
 
 /*  rating component */
 .rating {
   display: flex;
-  color: #ff0060;
+  color: #73bbc9;
 }
 .rating p {
   font-size: 18px;
