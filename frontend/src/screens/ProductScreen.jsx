@@ -1,15 +1,24 @@
-import React from "react";
-import products from "../products";
+import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { Row, Col, Image, ListGroup, Card, Button } from "react-bootstrap";
-import { Link } from "react-router-dom";
 import Rating from "../components/Rating";
 
 const ProductScreen = () => {
   const { id: productId } = useParams();
 
-  const product = products.find((p) => p.rating === 4.5);
-  console.log(product);
+  const [product, setProduct] = useState({});
+
+  useEffect(() => {
+    const fetchProduct = async () => {
+      const response = await fetch(
+        `http://localhost:5000/api/products/${productId}`
+      );
+      const jsonData = await response.json();
+      setProduct(jsonData);
+    };
+
+    fetchProduct();
+  }, []);
 
   return (
     <>

@@ -1,9 +1,12 @@
 import express from "express";
 import dotenv from "dotenv";
 dotenv.config();
+import cors from "cors";
 import { ProductController } from "./controllers/productController.js";
 
 const app = express();
+
+app.use(cors());
 
 app.get("/", (req, res) => {
   res.send("API is running...");
