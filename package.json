@@ -5,6 +5,8 @@
   "description": "",
   "main": "index.js",
   "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "colors": "^1.4.0",
     "cors": "^2.8.5",
     "dotenv": "^16.1.3",
     "express": "^4.18.2",
@@ -13,7 +15,9 @@
   "scripts": {
     "api": "nodemon backend/app.js",
     "client": "npm run dev --prefix frontend",
-    "dev": "concurrently \" pnpm run client \" \" pnpm run api \""
+    "dev": "concurrently \" pnpm run client \" \" pnpm run api \"",
+    "import-data": "node backend/seeder.js",
+    "destroy-data": "node backend/seeder.js -d"
   },
   "keywords": [],
   "author": "",
