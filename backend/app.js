@@ -9,6 +9,8 @@ import { connectDB } from "./config/db.js";
 
 import { ProductController } from "./controllers/productController.js";
 
+import { notFound, errorHandler } from "./middleware/errorMiddleware.js";
+
 connectDB();
 
 const app = express();
@@ -20,6 +22,8 @@ app.get("/", (req, res) => {
 });
 
 app.use("/api/products", new ProductController().router);
+
+app.use([notFound, errorHandler]);
 
 const port = process.env.PORT;
 

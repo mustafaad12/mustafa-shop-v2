@@ -16,7 +16,8 @@ export class ProductController {
       asyncHandler(async (req, res) => {
         const products = await this.service.getAllProducts();
         if (products.length === 0) {
-          res.status(404).json({ message: "Products not found" });
+          res.status(404);
+          throw new Error("Products not found");
         }
         res.json(products);
       })
@@ -27,7 +28,8 @@ export class ProductController {
         const product = await this.service.getProductById(req.params.id);
 
         if (!product) {
-          res.status(404).json({ message: "Product not found" });
+          res.status(404);
+          throw new Error("Product not found");
         }
 
         res.json(product);
