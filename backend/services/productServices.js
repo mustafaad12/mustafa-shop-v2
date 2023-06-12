@@ -5,8 +5,8 @@ export class ProductService {
     return await Product.find();
   }
 
-  getProductById(id) {
-    const singleProduct = sampleProducts.find((p) => p._id == id);
+  async getProductById(id) {
+    const singleProduct = await Product.findById(id);
     return singleProduct;
   }
 }
