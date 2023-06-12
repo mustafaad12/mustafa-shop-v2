@@ -1,8 +1,8 @@
-import sampleProducts from "../sample data/products.js";
+import Product from "../models/productModel.js";
 
 export class ProductService {
-  getAllProducts() {
-    return sampleProducts;
+  async getAllProducts() {
+    return await Product.find();
   }
 
   getProductById(id) {
