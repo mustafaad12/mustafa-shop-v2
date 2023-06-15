@@ -2,6 +2,7 @@ import React from "react";
 import { Row, Col } from "react-bootstrap";
 //product card component
 import Product from "../components/Product";
+import Loader from "../components/Loader";
 import { useGetProductsQuery } from "../slices/productApiSlice";
 
 const HomeScreen = () => {
@@ -9,7 +10,7 @@ const HomeScreen = () => {
   return (
     <>
       {isLoading ? (
-        <h2>Loading...</h2>
+        <Loader />
       ) : error ? (
         <h2>{error.data.message || error.error}</h2>
       ) : (

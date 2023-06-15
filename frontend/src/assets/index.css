@@ -15,6 +15,7 @@ components ---
 1 header component
 2 product card component
 3 rating component
+4 loader component
  */
 
 /*  home screen */
@@ -81,4 +82,15 @@ components ---
 .rating p {
   font-size: 18px;
   margin-left: 10px;
+}
+
+/*  loader component */
+
+.spinner {
+  width: 300px;
+  height: 300px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }
