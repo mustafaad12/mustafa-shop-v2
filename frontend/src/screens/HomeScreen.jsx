@@ -1,33 +1,31 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { Row, Col } from "react-bootstrap";
 //product card component
 import Product from "../components/Product";
+import { useGetProductsQuery } from "../slices/productApiSlice";
 
 const HomeScreen = () => {
-  const [products, setProducts] = useState([]);
-
-  useEffect(() => {
-    const fetchProducts = async () => {
-      const response = await fetch("http://localhost:5000/api/products");
-      const jsonData = await response.json();
-      setProducts(jsonData);
-    };
-
-    fetchProducts();
-  }, []);
-
+  const { data: products, isLoading, error } = useGetProductsQuery();
   return (
     <>
-      <Row>
-        <h1 className="home-screen-title">latest products</h1>
-        {products.map((product) => {
-          return (
-            <Col key={product._id} sm={12} md={6} lg={4} xl={3}>
-              <Product product={product} />
-            </Col>
-          );
-        })}
-      </Row>
+      {isLoading ? (
+        <h2>Loading...</h2>
+      ) : error ? (
+        <h2>{error.data.message || error.error}</h2>
+      ) : (
+        <>
+          <Row>
+            <h1 className="home-screen-title">latest products</h1>
+            {products.map((product) => {
+              return (
+                <Col key={product._id} sm={12} md={6} lg={4} xl={3}>
+                  <Product product={product} />
+                </Col>
+              );
+            })}
+          </Row>
+        </>
+      )}
     </>
   );
 };
