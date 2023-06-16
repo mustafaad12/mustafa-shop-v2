@@ -1,13 +1,21 @@
-import React from "react";
+import React, { useState } from "react";
 import { useParams } from "react-router-dom";
 import { useGetSingleProductQuery } from "../slices/productApiSlice";
-import { Row, Col, Image, ListGroup, Card, Button } from "react-bootstrap";
+import {
+  Form,
+  Row,
+  Col,
+  Image,
+  ListGroup,
+  Card,
+  Button,
+} from "react-bootstrap";
 import Rating from "../components/Rating";
 import Loader from "../components/Loader";
 
 const ProductScreen = () => {
   const { id: productId } = useParams();
-
+  const [qty, setQty] = useState(1);
   const {
     data: product,
     isLoading,
@@ -58,9 +66,34 @@ const ProductScreen = () => {
                 <ListGroup.Item>
                   <Row>
                     <Col>status:</Col>
-                    <Col>{product.countInStock > 0 && "In Stock"}</Col>
+                    <Col>
+                      {product.countInStock > 0 ? "In Stock" : "Out Of Stock"}
+                    </Col>
                   </Row>
                 </ListGroup.Item>
+
+                {product.countInStock > 0 && (
+                  <ListGroup.Item>
+                    <Row>
+                      <Col>qty</Col>
+                      <Col>
+                        <Form.Control
+                          as="select"
+                          value={qty}
+                          onChange={(e) => setQty(Number(e.target.value))}
+                        >
+                          {[...Array(product.countInStock).keys()].map((x) => {
+                            return (
+                              <option key={x + 1} value={x + 1}>
+                                {x + 1}
+                              </option>
+                            );
+                          })}
+                        </Form.Control>
+                      </Col>
+                    </Row>
+                  </ListGroup.Item>
+                )}
 
                 <ListGroup.Item className="product-screen-btn">
                   <Button
