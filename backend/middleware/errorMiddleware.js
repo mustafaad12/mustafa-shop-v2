@@ -1,6 +1,6 @@
-//This will be call if no other middleware has handle the request
+//This will be call if no other middleware has handle the request such as route not exist
 export const notFound = (req, res, next) => {
-  const error = new Error(`Not Found - ${req.originUrl}`);
+  const error = new Error(`Not Found - ${req.originalUrl}`);
   res.status(404);
   next(error);
 };
