@@ -30,6 +30,7 @@ const ProductScreen = () => {
 
   const handleClick = () => {
     dispatch(addToCart({ ...product, qty }));
+    navigate("/cart");
   };
 
   return (
