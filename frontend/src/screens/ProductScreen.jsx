@@ -1,5 +1,7 @@
 import React, { useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { addToCart } from "../slices/cartSlice";
 import { useGetSingleProductQuery } from "../slices/productApiSlice";
 import {
   Form,
@@ -16,11 +18,19 @@ import Loader from "../components/Loader";
 const ProductScreen = () => {
   const { id: productId } = useParams();
   const [qty, setQty] = useState(1);
+
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
   const {
     data: product,
     isLoading,
     error,
   } = useGetSingleProductQuery(productId);
+
+  const handleClick = () => {
+    dispatch(addToCart({ ...product, qty }));
+  };
 
   return (
     <>
@@ -100,6 +110,7 @@ const ProductScreen = () => {
                     className="btn-block"
                     type="button"
                     disabled={product.countInStock === 0}
+                    onClick={handleClick}
                   >
                     Add To Card
                   </Button>
