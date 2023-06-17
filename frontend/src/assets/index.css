@@ -56,6 +56,10 @@ components ---
   color: white;
   font-size: 20px;
 }
+.numOfItems {
+  margin-left: 5px;
+  color: #87cbb9;
+}
 
 /*  product card component */
 .product-card {
