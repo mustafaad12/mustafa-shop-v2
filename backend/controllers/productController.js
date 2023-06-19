@@ -1,6 +1,6 @@
 import { Router } from "express";
 import asyncHandler from "../middleware/asyncHandler.js";
-import { ProductService } from "../services/productServices.js";
+import { ProductService } from "../services/productService.js";
 
 export class ProductController {
   router;

@@ -8,6 +8,7 @@ import cors from "cors";
 import { connectDB } from "./config/db.js";
 
 import { ProductController } from "./controllers/productController.js";
+import { UserController } from "./controllers/userController.js";
 
 import { notFound, errorHandler } from "./middleware/errorMiddleware.js";
 
@@ -22,6 +23,7 @@ app.get("/", (req, res) => {
 });
 
 app.use("/api/products", new ProductController().router);
+app.use("/api/users", new UserController().router);
 
 app.use([notFound, errorHandler]);
 
