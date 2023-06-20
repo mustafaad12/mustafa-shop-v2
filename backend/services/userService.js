@@ -19,13 +19,6 @@ export class UserService {
     return "register user";
   }
 
-  // @desc Logout user / clear cookie
-  // @route POST /api/users/logout
-  // @access Private
-  logoutUser() {
-    return "logout user";
-  }
-
   // @desc Get user profile
   // @route GET /api/users/profile
   // @access Private

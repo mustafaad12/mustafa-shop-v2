@@ -31,13 +31,6 @@ export class UserController {
       );
 
     this.router.post(
-      "/logout",
-      asyncHandler((req, res) => {
-        res.send(this.service.logoutUser());
-      })
-    );
-
-    this.router.post(
       "/login",
       asyncHandler(async (req, res) => {
         const { email, password } = req.body;
@@ -64,6 +57,19 @@ export class UserController {
           res.status(401);
           throw new Error("Invalid email or password");
         }
+      })
+    );
+
+    this.router.post(
+      "/logout",
+      protect,
+      asyncHandler((req, res) => {
+        res.cookie("jwt", "", {
+          httpOnly: true,
+          expires: new Date(0),
+        });
+
+        res.status(200).json({ message: "Logged out successfully" });
       })
     );
 
