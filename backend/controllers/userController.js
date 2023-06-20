@@ -3,6 +3,8 @@ import { UserService } from "../services/userService.js";
 import asyncHandler from "../middleware/asyncHandler.js";
 import jwt from "jsonwebtoken";
 
+import { protect, admin } from "../middleware/authMiddleware.js";
+
 export class UserController {
   router;
   constructor() {
@@ -15,6 +17,8 @@ export class UserController {
     this.router
       .route("/")
       .get(
+        protect,
+        admin,
         asyncHandler((req, res) => {
           res.send(this.service.getAllUsers());
         })
@@ -66,12 +70,14 @@ export class UserController {
     this.router
       .route("/profile")
       .get(
+        protect,
         asyncHandler((req, res) => {
           res.send(this.service.getUserProfile());
         })
       )
 
       .put(
+        protect,
         asyncHandler((req, res) => {
           res.send(this.service.updateUserProfile());
         })
@@ -80,18 +86,24 @@ export class UserController {
     this.router
       .route("/:id")
       .get(
+        protect,
+        admin,
         asyncHandler((req, res) => {
           res.send(this.service.getUserById());
         })
       )
 
       .put(
+        protect,
+        admin,
         asyncHandler((req, res) => {
           res.send(this.service.updateUser());
         })
       )
 
       .delete(
+        protect,
+        admin,
         asyncHandler((req, res) => {
           res.send(this.service.deleteUser());
         })
