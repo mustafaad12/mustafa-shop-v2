@@ -1,6 +1,7 @@
 import { Router } from "express";
 import { UserService } from "../services/userService.js";
 import asyncHandler from "../middleware/asyncHandler.js";
+import jwt from "jsonwebtoken";
 
 export class UserController {
   router;
@@ -38,6 +39,17 @@ export class UserController {
         const { email, password } = req.body;
         const user = await this.service.login(email, password);
         if (user) {
+          const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, {
+            expiresIn: "3d",
+          });
+
+          res.cookie("jwt", token, {
+            httpOnly: true,
+            secure: process.env.NODE_ENV !== "development",
+            sameSite: "strict",
+            maxAge: 30 * 24 * 60 * 60 * 1000,
+          });
+
           res.json({
             _id: user._id,
             name: user.name,

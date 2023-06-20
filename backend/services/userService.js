@@ -6,6 +6,7 @@ export class UserService {
   // @access Public
   async login(email, password) {
     const user = await User.findOne({ email });
+
     if (user && (await user.matchPassword(password))) {
       return user;
     }
