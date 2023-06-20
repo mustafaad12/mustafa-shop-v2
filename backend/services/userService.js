@@ -4,8 +4,11 @@ export class UserService {
   // @desc Login user & get token
   // @route POST /api/users/login
   // @access Public
-  login() {
-    return "login user";
+  async login(email, password) {
+    const user = await User.findOne({ email });
+    if (user && (await user.matchPassword(password))) {
+      return user;
+    }
   }
 
   // @desc Register user
