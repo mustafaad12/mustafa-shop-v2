@@ -1,8 +1,7 @@
 import { Router } from "express";
 import { UserService } from "../services/userService.js";
 import asyncHandler from "../middleware/asyncHandler.js";
-import jwt from "jsonwebtoken";
-
+import generateToken from "../utils/generateToken.js";
 import { protect, admin } from "../middleware/authMiddleware.js";
 
 export class UserController {
@@ -23,43 +22,43 @@ export class UserController {
           res.send(this.service.getAllUsers());
         })
       )
-
+      // register new user
       .post(
-        asyncHandler((req, res) => {
-          res.send(this.service.registerUser());
-        })
-      );
+        asyncHandler(async (req, res) => {
+          const { name, email, password } = req.body;
 
-    this.router.post(
-      "/login",
-      asyncHandler(async (req, res) => {
-        const { email, password } = req.body;
-        const user = await this.service.login(email, password);
-        if (user) {
-          const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, {
-            expiresIn: "3d",
-          });
+          const user = await this.service.registerUser(name, email, password);
 
-          res.cookie("jwt", token, {
-            httpOnly: true,
-            secure: process.env.NODE_ENV !== "development",
-            sameSite: "strict",
-            maxAge: 30 * 24 * 60 * 60 * 1000,
-          });
+          generateToken(user._id, res);
 
-          res.json({
+          res.status(201).json({
             _id: user._id,
             name: user.name,
             email: user.email,
             isAdmin: user.isAdmin,
           });
-        } else {
-          res.status(401);
-          throw new Error("Invalid email or password");
-        }
+        })
+      );
+
+    // login user
+    this.router.post(
+      "/login",
+      asyncHandler(async (req, res) => {
+        const { email, password } = req.body;
+        const user = await this.service.login(email, password);
+
+        generateToken(user._id, res);
+
+        res.json({
+          _id: user._id,
+          name: user.name,
+          email: user.email,
+          isAdmin: user.isAdmin,
+        });
       })
     );
 
+    // logout user
     this.router.post(
       "/logout",
       protect,

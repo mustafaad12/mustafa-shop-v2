@@ -9,14 +9,32 @@ export class UserService {
 
     if (user && (await user.matchPassword(password))) {
       return user;
+    } else {
+      throw { status: 409, message: "Invalid email or password" };
     }
   }
 
   // @desc Register user
   // @route POST /api/users
   // @access Public
-  registerUser() {
-    return "register user";
+  async registerUser(name, email, password) {
+    const existUser = await User.findOne({ email });
+
+    if (existUser) {
+      throw { status: 401, message: "user already exist" };
+    }
+
+    const newUser = await User.create({
+      name,
+      email,
+      password,
+    });
+
+    if (!newUser) {
+      throw { status: 400, message: "Invalid user data" };
+    }
+
+    return newUser;
   }
 
   // @desc Get user profile

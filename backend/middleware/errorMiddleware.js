@@ -17,6 +17,12 @@ export const errorHandler = (err, req, res, next) => {
     statusCode = 404;
   }
 
+  // n case of throw object {status: --, message: "---"}
+  if (err.status && err.message) {
+    message = err.message;
+    statusCode = err.status;
+  }
+
   res.status(statusCode).json({
     message,
     stack: process.env.NODE_ENV === "production" ? "apple" : err.stack,
