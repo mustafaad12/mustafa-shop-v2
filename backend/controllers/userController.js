@@ -72,19 +72,39 @@ export class UserController {
       })
     );
 
+    //get user profile
     this.router
       .route("/profile")
       .get(
         protect,
-        asyncHandler((req, res) => {
-          res.send(this.service.getUserProfile());
+        asyncHandler(async (req, res) => {
+          const user = await this.service.getUserProfile(req.user._id);
+          res.status(200).json({
+            _id: user._id,
+            name: user.name,
+            email: user.email,
+            isAdmin: user.isAdmin,
+          });
         })
       )
 
+      //update user profile
       .put(
         protect,
-        asyncHandler((req, res) => {
-          res.send(this.service.updateUserProfile());
+        asyncHandler(async (req, res) => {
+          const { name, email, password } = req.body;
+          const user = await this.service.updateUserProfile(
+            req.user._id,
+            name,
+            email,
+            password
+          );
+          res.status(200).json({
+            _id: user._id,
+            name: user.name,
+            email: user.email,
+            isAdmin: user.isAdmin,
+          });
         })
       );
 

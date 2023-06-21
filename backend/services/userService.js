@@ -40,15 +40,34 @@ export class UserService {
   // @desc Get user profile
   // @route GET /api/users/profile
   // @access Private
-  getUserProfile() {
-    return "get user profile";
+  async getUserProfile(id) {
+    const user = await User.findById(id);
+    if (user) {
+      return user;
+    } else {
+      throw { status: 404, message: "User not found" };
+    }
   }
 
   // @desc Update user profile
   // @route PUT /api/users/profile (using token no need for id)
   // @access Private
-  updateUserProfile() {
-    return "update user profile";
+  async updateUserProfile(id, name, email, password) {
+    const user = await User.findById(id);
+    if (user) {
+      user.name = name || user.name;
+      user.email = email || user.email;
+
+      if (password) {
+        user.password = password;
+      }
+
+      const updatedUser = await user.save();
+
+      return updatedUser;
+    } else {
+      throw { status: 404, message: "User not found" };
+    }
   }
 
   // @desc Get all users
