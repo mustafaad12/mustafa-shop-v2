@@ -17,6 +17,7 @@ components ---
 2 product card component
 3 rating component
 4 loader component
+5 form container component
  */
 
 /*  home screen */
@@ -97,4 +98,11 @@ components ---
   position: absolute;
   top: 50%;
   left: 50%;
+}
+
+/*  form container component */
+@media (min-width: 1200px) {
+  .form-container {
+    padding: 7% 14%;
+  }
 }
