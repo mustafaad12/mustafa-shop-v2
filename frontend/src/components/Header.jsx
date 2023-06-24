@@ -1,6 +1,6 @@
 import React from "react";
 import { useSelector } from "react-redux";
-import { Container, Nav, Navbar } from "react-bootstrap";
+import { Container, Nav, Navbar, NavDropdown } from "react-bootstrap";
 //font awesome icons
 import { FaShoppingCart, FaUser } from "react-icons/fa";
 import logo from "../assets/logo.png";
@@ -9,6 +9,7 @@ import { LinkContainer } from "react-router-bootstrap";
 const Header = () => {
   const cartItems = useSelector((state) => state.cart.cartItems);
   const numOfItems = cartItems.reduce((acc, item) => acc + item.qty, 0);
+  const { userInfo } = useSelector((state) => state.auth);
 
   return (
     <>
@@ -33,11 +34,24 @@ const Header = () => {
                 </Nav.Link>
               </LinkContainer>
 
-              <LinkContainer to="/login">
-                <Nav.Link className="header-links">
-                  <FaUser /> Sign In
-                </Nav.Link>
-              </LinkContainer>
+              {userInfo ? (
+                <NavDropdown
+                  className="header-links"
+                  title={userInfo.name}
+                  id="username"
+                >
+                  <LinkContainer to="/profile">
+                    <NavDropdown.Item>Profile</NavDropdown.Item>
+                  </LinkContainer>
+                  <NavDropdown.Item>Logout</NavDropdown.Item>
+                </NavDropdown>
+              ) : (
+                <LinkContainer to="/login">
+                  <Nav.Link className="header-links">
+                    <FaUser /> Sign In
+                  </Nav.Link>
+                </LinkContainer>
+              )}
             </Nav>
           </Navbar.Collapse>
         </Container>

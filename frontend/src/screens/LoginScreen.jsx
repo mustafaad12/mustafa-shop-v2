@@ -1,15 +1,44 @@
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import { Row, Col, Form, Button } from "react-bootstrap";
 import FormContainer from "../components/formContainer";
+import { useDispatch, useSelector } from "react-redux";
+import { setCredentials } from "../slices/authSlice";
+import { useLoginMutation } from "../slices/usersApiSlice";
+import Loader from "../components/Loader";
+import { toast } from "react-toastify";
 
 const LoginScreen = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const submitHandler = (e) => {
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  const [login, { isLoading }] = useLoginMutation();
+
+  const { userInfo } = useSelector((state) => state.auth);
+
+  const location = useLocation();
+  const searchParams = new URLSearchParams(location.search);
+  const redirect = searchParams.get("redirect") || "/";
+
+  useEffect(() => {
+    if (userInfo) {
+      navigate(redirect);
+    }
+  }, [userInfo]);
+
+  const submitHandler = async (e) => {
     e.preventDefault();
-    console.log("submit");
+    try {
+      const res = await login({ email, password }).unwrap();
+      console.log(res);
+      dispatch(setCredentials({ ...res }));
+      navigate(redirect);
+    } catch (err) {
+      toast.error(err?.data?.message || err.error);
+    }
   };
 
   return (
@@ -39,11 +68,16 @@ const LoginScreen = () => {
         <Button variant="primary" type="submit" className="mt-2">
           Submit
         </Button>
+
+        {isLoading && <Loader />}
       </Form>
 
       <Row className="py-3">
         <Col>
-          New Customer? <Link to="/register">Register</Link>
+          New Customer?{" "}
+          <Link to={redirect ? `/register?redirect=${redirect}` : "/register"}>
+            Register
+          </Link>
         </Col>
       </Row>
     </FormContainer>

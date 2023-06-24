@@ -30,6 +30,10 @@ const CartScreen = () => {
 
   const subTotal = cartItems.reduce((acc, item) => acc + item.qty, 0);
 
+  const checkoutHandler = () => {
+    navigate("/login?redirect=/shipping");
+  };
+
   return (
     <>
       {cartItems.length === 0 ? (
@@ -92,7 +96,9 @@ const CartScreen = () => {
                 </ListGroup.Item>
 
                 <ListGroup.Item>
-                  <Button className="btn btn-block">checkout</Button>
+                  <Button onClick={checkoutHandler} className="btn btn-block">
+                    checkout
+                  </Button>
                 </ListGroup.Item>
               </ListGroup>
             </Card>
