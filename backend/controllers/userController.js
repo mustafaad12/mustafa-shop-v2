@@ -65,6 +65,8 @@ export class UserController {
       asyncHandler((req, res) => {
         res.cookie("jwt", "", {
           httpOnly: true,
+          secure: true,
+          sameSite: "strict", // Prevent CSRF attacks
           expires: new Date(0),
         });
 
