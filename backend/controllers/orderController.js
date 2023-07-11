@@ -1,5 +1,4 @@
 import { Router } from "express";
-import Order from "../models/orderModel.js";
 import asyncHandler from "../middleware/asyncHandler.js";
 import { protect, admin } from "../middleware/authMiddleware.js";
 import { OrderService } from "../services/orderService.js";
@@ -19,7 +18,12 @@ export class OrderController {
       .route("/")
       .post(
         asyncHandler(async (req, res) => {
-          res.send(await this.service.addNewOrder());
+          const userId = "req.user._id";
+          const data = req.body;
+
+          const createdOrder = await this.service.addNewOrder(data, userId);
+
+          res.status(201).json(createdOrder);
         })
       )
 
@@ -34,7 +38,8 @@ export class OrderController {
     this.router.get(
       "/myorders",
       asyncHandler(async (req, res) => {
-        res.send(await this.service.getMyOrders());
+        const orders = await this.service.getMyOrders(req.user._id);
+        res.status(200).json(orders);
       })
     );
 
@@ -42,7 +47,8 @@ export class OrderController {
     this.router.get(
       "/:id",
       asyncHandler(async (req, res) => {
-        res.send(await this.service.getOrderById());
+        const order = await this.service.getOrderById(req.params.id);
+        res.status(200).json(order);
       })
     );
 

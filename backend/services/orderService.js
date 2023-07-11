@@ -1,9 +1,43 @@
+import Order from "../models/orderModel.js";
+
 export class OrderService {
   // @desc Add new order
   // @route Post /api/orders
   // @access Private
-  addNewOrder() {
-    return "order added";
+  async addNewOrder(
+    {
+      orderItems,
+      shippingAddress,
+      paymentMethod,
+      itemsPrice,
+      taxPrice,
+      shippingPrice,
+      totalPrice,
+    },
+    userId
+  ) {
+    console.log();
+    if (orderItems && orderItems.length === 0) {
+      throw { status: 400, message: "No order items" };
+    } else {
+      const order = new Order({
+        user: userId,
+        orderItems: orderItems.map((item) => ({
+          ...item,
+          product: item._id,
+          _id: undefined,
+        })),
+        shippingAddress,
+        paymentMethod,
+        itemsPrice,
+        taxPrice,
+        shippingPrice,
+        totalPrice,
+      });
+
+      const createdOrder = await order.save();
+      return createdOrder;
+    }
   }
 
   // @desc Get all orders
@@ -16,15 +50,20 @@ export class OrderService {
   // @desc Get user logged in orders
   // @route Get /api/orders/myorders
   // @access Private
-  getMyOrders() {
-    return "get user logged in orders";
+  async getMyOrders(id) {
+    return await Order.find({ user: id });
   }
 
   // @desc Get order by id
   // @route Get /api/orders/:id
   // @access Private
-  getOrderById() {
-    return "get order by id";
+  async getOrderById(id) {
+    const order = await Order.findById(id).populate("user", "name email");
+    if (order) {
+      return order;
+    } else {
+      throw { status: 404, message: "Order not found" };
+    }
   }
 
   // @desc Update order to paid
