@@ -7,6 +7,7 @@ import { connectDB } from "./config/db.js";
 
 import { ProductController } from "./controllers/productController.js";
 import { UserController } from "./controllers/userController.js";
+import { OrderController } from "./controllers/orderController.js";
 
 import { notFound, errorHandler } from "./middleware/errorMiddleware.js";
 
@@ -24,6 +25,7 @@ app.get("/", (req, res) => {
 
 app.use("/api/products", new ProductController().router);
 app.use("/api/users", new UserController().router);
+app.use("/api/orders", new OrderController().router);
 
 app.use([notFound, errorHandler]);
 
