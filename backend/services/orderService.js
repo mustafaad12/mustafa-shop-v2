@@ -16,7 +16,6 @@ export class OrderService {
     },
     userId
   ) {
-    console.log();
     if (orderItems && orderItems.length === 0) {
       throw { status: 400, message: "No order items" };
     } else {
