@@ -75,7 +75,7 @@ const PlaceOrderScreen = () => {
                   cart.cartItems.map((item, index) => (
                     <ListGroup.Item key={index} className="py-3">
                       <Row>
-                        <Col md={1}>
+                        <Col md={2}>
                           <Image
                             src={item.image}
                             alt={item.name}
@@ -87,7 +87,7 @@ const PlaceOrderScreen = () => {
                           <Link to={`/product/${item._id}`}>{item.name}</Link>
                         </Col>
                         <Col md={4}>
-                          {item.qty} * ${item.price} = {item.qty * item.price}
+                          {item.qty} * ${item.price} = ${item.qty * item.price}
                         </Col>
                       </Row>
                     </ListGroup.Item>

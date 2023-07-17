@@ -17,8 +17,9 @@ export class OrderController {
     this.router
       .route("/")
       .post(
+        protect,
         asyncHandler(async (req, res) => {
-          const userId = "req.user._id";
+          const userId = req.user._id;
           const data = req.body;
 
           const createdOrder = await this.service.addNewOrder(data, userId);
