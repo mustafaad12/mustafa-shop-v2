@@ -20,16 +20,19 @@ const ProfileScreen = () => {
   const [confirmPassword, setConfirmPassword] = useState("");
 
   const [updateUser, { isLoading, error }] = useUpdateUserInfoMutation();
+
   const {
     data: orders,
     isLoading: loadingUserOrders,
     error: errorUserOrders,
+    refetch: refetchOrders,
   } = useGetMyOrdersQuery();
 
   useEffect(() => {
+    refetchOrders();
     setName(userInfo.name);
     setEmail(userInfo.email);
-  }, [userInfo.name, userInfo.email]);
+  }, [userInfo.name, userInfo.email, refetchOrders]);
 
   const submitHandler = async (e) => {
     e.preventDefault();
