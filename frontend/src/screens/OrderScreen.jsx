@@ -73,7 +73,7 @@ const OrderScreen = () => {
               <ListGroup variant="flush">
                 {order.orderItems.map((item) => {
                   return (
-                    <ListGroup.Item>
+                    <ListGroup.Item key={item._id}>
                       <Row>
                         <Col md={1}>
                           <Image

@@ -38,6 +38,7 @@ export class OrderController {
     //get user logged in orders
     this.router.get(
       "/myorders",
+      protect,
       asyncHandler(async (req, res) => {
         const orders = await this.service.getMyOrders(req.user._id);
         res.status(200).json(orders);
