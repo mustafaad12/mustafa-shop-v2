@@ -42,8 +42,8 @@ export class OrderService {
   // @desc Get all orders
   // @route Get /api/orders
   // @access Private/Admin
-  getAllOrders() {
-    return "get all orders";
+  async getAllOrders() {
+    return await Order.find({}).populate("user", "id name");
   }
 
   // @desc Get user logged in orders
@@ -75,7 +75,17 @@ export class OrderService {
   // @desc Update order to delivered
   // @route Put /api/orders/:id/deliver
   // @access Private/Admin
-  updateOrderToDelivered() {
-    return "update order to delivered";
+  async updateOrderToDelivered(id) {
+    const order = await Order.findById(id);
+
+    if (order) {
+      order.isDelivered = true;
+      order.deliveredAt = Date.now();
+
+      const updatedOrder = await order.save();
+      return updatedOrder;
+    } else {
+      throw { status: 404, message: "Order not found" };
+    }
   }
 }

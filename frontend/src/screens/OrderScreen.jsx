@@ -9,14 +9,37 @@ import {
   Image,
   Form,
 } from "react-bootstrap";
-import { useGetOrderByIdQuery } from "../slices/orderApiSlice";
+import {
+  useGetOrderByIdQuery,
+  useUpdateOrderToDeliveredMutation,
+} from "../slices/orderApiSlice";
+import { useSelector } from "react-redux";
+import { toast } from "react-toastify";
 
 import Message from "../components/Message";
 import Loader from "../components/Loader";
 
 const OrderScreen = () => {
+  const { userInfo } = useSelector((state) => state.auth);
   const { id: orderId } = useParams();
-  const { data: order, isLoading, error } = useGetOrderByIdQuery(orderId);
+  const {
+    data: order,
+    isLoading,
+    error,
+    refetch,
+  } = useGetOrderByIdQuery(orderId);
+  const [deliverOrder, { isLoading: loadingDeliver }] =
+    useUpdateOrderToDeliveredMutation();
+
+  const deliverOrderHandler = async () => {
+    try {
+      await deliverOrder(orderId);
+      refetch();
+      toast.success("Order delivered");
+    } catch (err) {
+      toast.error(err?.data?.message || err.error);
+    }
+  };
 
   return isLoading ? (
     <Loader />
@@ -134,6 +157,21 @@ const OrderScreen = () => {
                   <Col>${order.totalPrice}</Col>
                 </Row>
               </ListGroup.Item>
+
+              {userInfo &&
+                userInfo.isAdmin &&
+                order.isPaid &&
+                !order.isDelivered && (
+                  <ListGroup.Item>
+                    <Button
+                      onClick={deliverOrderHandler}
+                      type="button"
+                      className="btn btn-block"
+                    >
+                      Mark As Delivered
+                    </Button>
+                  </ListGroup.Item>
+                )}
             </ListGroup>
           </Card>
         </Col>

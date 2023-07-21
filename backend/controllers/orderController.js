@@ -30,8 +30,11 @@ export class OrderController {
 
       //get all orders
       .get(
+        protect,
+        admin,
         asyncHandler(async (req, res) => {
-          res.send(await this.service.getAllOrders());
+          const orders = await this.service.getAllOrders();
+          res.status(200).json(orders);
         })
       );
 
@@ -48,6 +51,7 @@ export class OrderController {
     //get order by id
     this.router.get(
       "/:id",
+      protect,
       asyncHandler(async (req, res) => {
         const order = await this.service.getOrderById(req.params.id);
         res.status(200).json(order);
@@ -65,8 +69,13 @@ export class OrderController {
     //update order to delivered
     this.router.put(
       "/:id/deliver",
+      protect,
+      admin,
       asyncHandler(async (req, res) => {
-        res.send(await this.service.updateOrderToDelivered());
+        const updatedOrder = await this.service.updateOrderToDelivered(
+          req.params.id
+        );
+        res.status(200).json(updatedOrder);
       })
     );
   }
