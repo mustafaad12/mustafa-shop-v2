@@ -7,12 +7,31 @@ export class ProductService {
   async getAllProducts() {
     return await Product.find();
   }
-
+  // @desc Fetch a Product
+  // @route GET / api/products/:id
+  // @ access Public
   async getProductById(id) {
-    // @desc Fetch a Product
-    // @route GET / api/products/:id
-    // @ access Public
     const singleProduct = await Product.findById(id);
     return singleProduct;
+  }
+  // @desc Create a Product
+  // @route POST / api/products
+  // @ access Private/Admin
+  async createProduct(id) {
+    const product = new Product({
+      name: "Sample name",
+      price: 0,
+      user: id,
+      image: "/images/sample.jpg",
+      brand: "Sample brand",
+      category: "Sample category",
+      countInStock: 0,
+      numReviews: 0,
+      description: "Sample description",
+    });
+
+    const createdProduct = await product.save();
+
+    return createdProduct;
   }
 }
