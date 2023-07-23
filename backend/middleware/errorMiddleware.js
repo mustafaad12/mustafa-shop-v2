@@ -17,7 +17,7 @@ export const errorHandler = (err, req, res, next) => {
     statusCode = 404;
   }
 
-  // n case of throw object {status: --, message: "---"}
+  // in case of throw object {status: --, message: "---"}
   if (err.status && err.message) {
     message = err.message;
     statusCode = err.status;

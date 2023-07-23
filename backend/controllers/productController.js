@@ -36,17 +36,34 @@ export class ProductController {
         })
       );
 
-    this.router.route("/:id").get(
-      asyncHandler(async (req, res) => {
-        const product = await this.service.getProductById(req.params.id);
+    this.router
+      .route("/:id")
+      .get(
+        asyncHandler(async (req, res) => {
+          const product = await this.service.getProductById(req.params.id);
 
-        if (!product) {
-          res.status(404);
-          throw new Error("Product not found");
-        }
+          if (!product) {
+            res.status(404);
+            throw new Error("Product not found");
+          }
 
-        res.json(product);
-      })
-    );
+          res.json(product);
+        })
+      )
+
+      .put(
+        protect,
+        admin,
+        asyncHandler(async (req, res) => {
+          const data = req.body;
+
+          const updatedProduct = await this.service.updateProduct({
+            ...data,
+            id: req.params.id,
+          });
+
+          res.status(200).json(updatedProduct);
+        })
+      );
   }
 }

@@ -34,4 +34,35 @@ export class ProductService {
 
     return createdProduct;
   }
+
+  // @desc Update a Product
+  // @route Put / api/products/:id
+  // @ access Private/Admin
+  async updateProduct({
+    name,
+    price,
+    description,
+    image,
+    brand,
+    category,
+    countInStock,
+    id,
+  }) {
+    const product = await Product.findById(id);
+
+    if (product) {
+      product.name = name || product.name;
+      product.price = price || product.price;
+      product.description = description || product.description;
+      product.image = image || product.image;
+      product.brand = brand || product.brand;
+      product.category = category || product.category;
+      product.countInStock = countInStock || product.countInStock;
+
+      const updatedProduct = await product.save();
+      return updatedProduct;
+    } else {
+      throw { status: 404, message: "Product not found" };
+    }
+  }
 }

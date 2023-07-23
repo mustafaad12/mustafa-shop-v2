@@ -11,6 +11,7 @@ a {
 screens ---
 1 home screen
 2 product screen
+3 product edit screen
 
 components ---
 1 header component
@@ -42,6 +43,14 @@ components ---
 }
 .product-screen-third-list-group {
   border-radius: 0;
+}
+
+/* product edit screen*/
+.product-edit-form {
+  padding: 7% 14%;
+}
+.product-edit-btn {
+  margin-top: 10px;
 }
 
 /*  header component */

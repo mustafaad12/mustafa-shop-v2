@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Row, Col } from "react-bootstrap";
 //product card component
 import Product from "../components/Product";
@@ -6,7 +6,12 @@ import Loader from "../components/Loader";
 import { useGetProductsQuery } from "../slices/productApiSlice";
 
 const HomeScreen = () => {
-  const { data: products, isLoading, error } = useGetProductsQuery();
+  const { data: products, isLoading, error, refetch } = useGetProductsQuery();
+
+  useEffect(() => {
+    refetch();
+  }, [refetch]);
+
   return (
     <>
       {isLoading ? (
