@@ -65,4 +65,18 @@ export class ProductService {
       throw { status: 404, message: "Product not found" };
     }
   }
+
+  // @desc Delete a Product
+  // @route Delete / api/products/:id
+  // @ access Private/Admin
+  async deleteProduct(id) {
+    const product = await Product.findById(id);
+
+    if (product) {
+      await Product.findByIdAndDelete(id);
+      return product;
+    } else {
+      throw { status: 404, message: "Product not found" };
+    }
+  }
 }

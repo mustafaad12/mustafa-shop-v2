@@ -64,6 +64,18 @@ export class ProductController {
 
           res.status(200).json(updatedProduct);
         })
+      )
+
+      .delete(
+        protect,
+        admin,
+        asyncHandler(async (req, res) => {
+          const deletedProduct = await this.service.deleteProduct(
+            req.params.id
+          );
+
+          res.status(200).json(deletedProduct);
+        })
       );
   }
 }
