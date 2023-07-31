@@ -122,7 +122,12 @@ export class UserController {
         asyncHandler(async (req, res) => {
           const user = await this.service.getUserById(req.params.id);
 
-          res.status.json(user);
+          res.status(200).json({
+            _id: user._id,
+            name: user.name,
+            email: user.email,
+            isAdmin: user.isAdmin,
+          });
         })
       )
 
