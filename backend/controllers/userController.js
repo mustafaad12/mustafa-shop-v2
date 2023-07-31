@@ -12,14 +12,17 @@ export class UserController {
     this.setRoutes();
   }
 
+  // get all users
   setRoutes() {
     this.router
       .route("/")
       .get(
         protect,
         admin,
-        asyncHandler((req, res) => {
-          res.send(this.service.getAllUsers());
+        asyncHandler(async (req, res) => {
+          const users = await this.service.getAllUsers();
+
+          res.status(200).json(users);
         })
       )
       // register new user
@@ -112,27 +115,45 @@ export class UserController {
 
     this.router
       .route("/:id")
+      // get user by id
       .get(
         protect,
         admin,
-        asyncHandler((req, res) => {
-          res.send(this.service.getUserById());
+        asyncHandler(async (req, res) => {
+          const user = await this.service.getUserById(req.params.id);
+
+          res.status.json(user);
         })
       )
 
       .put(
         protect,
         admin,
-        asyncHandler((req, res) => {
-          res.send(this.service.updateUser());
+        asyncHandler(async (req, res) => {
+          const userData = req.body;
+
+          const updatedUser = await this.service.updateUser({
+            ...userData,
+            id: req.params.id,
+          });
+
+          res.status(200).json({
+            _id: updatedUser._id,
+            name: updatedUser.name,
+            email: updatedUser.email,
+            isAdmin: updatedUser.isAdmin,
+          });
         })
       )
 
+      // delete user
       .delete(
         protect,
         admin,
-        asyncHandler((req, res) => {
-          res.send(this.service.deleteUser());
+        asyncHandler(async (req, res) => {
+          const deletedUser = await this.service.deleteUser(req.params.id);
+
+          res.status(200).json(deletedUser);
         })
       );
   }

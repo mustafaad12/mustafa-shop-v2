@@ -73,28 +73,56 @@ export class UserService {
   // @desc Get all users
   // @route Get /api/users
   // @access Private/Admin
-  getAllUsers() {
-    return "get all users";
+  async getAllUsers() {
+    return await User.find({});
   }
 
   // @desc Get user by id
   // @route Get /api/users:id
   // @access Private/Admin
-  getUserById() {
-    return "get user by id";
+  async getUserById(id) {
+    const user = await User.findById(id);
+
+    if (user) {
+      return user;
+    } else {
+      throw { status: 404, message: "User not found" };
+    }
   }
 
   // @desc Delete User
   // @route DELETE /api/users/:id
   // @access Private/Admin
-  deleteUser() {
-    return "delete user";
+  async deleteUser(id) {
+    const user = await User.findById(id);
+
+    if (user) {
+      if (user.isAdmin) {
+        throw { status: 400, message: "cannot delete admin user" };
+      }
+
+      await User.findByIdAndDelete(id);
+      return "User deleted successfully";
+    } else {
+      throw { status: 404, message: "User not found" };
+    }
   }
 
   // @desc Update User By Admin
   // @route PUT /api/users/:id
   // @access Private/Admin
-  updateUser() {
-    return "update user by admin";
+  async updateUser({ name, email, isAdmin, id }) {
+    const user = await User.findById(id);
+
+    if (user) {
+      user.name = name || user.name;
+      user.email = email || user.email;
+      user.isAdmin = Boolean(isAdmin || user.isAdmin);
+
+      const updatedUser = await user.save();
+      return updatedUser;
+    } else {
+      throw { status: 404, message: "User not found" };
+    }
   }
 }
