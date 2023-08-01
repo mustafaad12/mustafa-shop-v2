@@ -2,6 +2,7 @@ import { Router } from "express";
 import asyncHandler from "../middleware/asyncHandler.js";
 import { protect, admin } from "../middleware/authMiddleware.js";
 import { OrderService } from "../services/orderService.js";
+import { limiter } from "../utils/limiter.js";
 
 export class OrderController {
   router;
@@ -18,6 +19,7 @@ export class OrderController {
       .route("/")
       .post(
         protect,
+        limiter,
         asyncHandler(async (req, res) => {
           const userId = req.user._id;
           const data = req.body;
