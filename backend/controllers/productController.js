@@ -77,5 +77,19 @@ export class ProductController {
           res.status(200).json(deletedProduct);
         })
       );
+
+    this.router.route("/:id/reviews").post(
+      protect,
+      asyncHandler(async (req, res) => {
+        const data = req.body;
+
+        const reviewMessage = await this.service.createReview({
+          ...data,
+          id: req.params.id,
+        });
+
+        res.status(201).json(reviewMessage);
+      })
+    );
   }
 }

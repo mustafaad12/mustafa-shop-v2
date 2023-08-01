@@ -79,4 +79,41 @@ export class ProductService {
       throw { status: 404, message: "Product not found" };
     }
   }
+
+  // @desc Create a new review
+  // @route Post / api/products/:id/review
+  // @ access Private
+  async createReview({ rating, comment, id }) {
+    const product = await Product.findById(id);
+
+    if (product) {
+      const existReview = product.reviwes.find(
+        (review) => review.user.toString() === req.user._id.toString()
+      );
+
+      if (existReview) {
+        throw { status: 400, message: "Product already reviewed" };
+      }
+
+      const review = {
+        user: req.user._id,
+        name: req.user.name,
+        rating: Number(rating),
+        comment,
+      };
+
+      product.reviwes.push(review);
+
+      product.numReviews = product.reviwes.length();
+
+      product.rating =
+        product.reviwes.reduce((acc, review) => acc + review.rating, 0) /
+        product.reviwes.length();
+
+      await product.save();
+      return "Review added";
+    } else {
+      throw { status: 404, message: "Product not found" };
+    }
+  }
 }
