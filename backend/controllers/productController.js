@@ -85,7 +85,9 @@ export class ProductController {
 
         const reviewMessage = await this.service.createReview({
           ...data,
-          id: req.params.id,
+          productId: req.params.id,
+          userId: req.user._id,
+          userName: req.user.name,
         });
 
         res.status(201).json(reviewMessage);

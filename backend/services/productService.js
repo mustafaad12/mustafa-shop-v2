@@ -83,12 +83,12 @@ export class ProductService {
   // @desc Create a new review
   // @route Post / api/products/:id/review
   // @ access Private
-  async createReview({ rating, comment, id }) {
-    const product = await Product.findById(id);
+  async createReview({ rating, comment, productId, userId, userName }) {
+    const product = await Product.findById(productId);
 
     if (product) {
-      const existReview = product.reviwes.find(
-        (review) => review.user.toString() === req.user._id.toString()
+      const existReview = product.reviews.find(
+        (review) => review.user.toString() === userId.toString()
       );
 
       if (existReview) {
@@ -96,19 +96,19 @@ export class ProductService {
       }
 
       const review = {
-        user: req.user._id,
-        name: req.user.name,
+        user: userId,
+        name: userName,
         rating: Number(rating),
         comment,
       };
 
-      product.reviwes.push(review);
+      product.reviews.push(review);
 
-      product.numReviews = product.reviwes.length();
+      product.numReviews = product.reviews.length;
 
       product.rating =
-        product.reviwes.reduce((acc, review) => acc + review.rating, 0) /
-        product.reviwes.length();
+        product.reviews.reduce((acc, review) => acc + review.rating, 0) /
+        product.reviews.length;
 
       await product.save();
       return "Review added";
