@@ -4,9 +4,14 @@ import { Row, Col } from "react-bootstrap";
 import Product from "../components/Product";
 import Loader from "../components/Loader";
 import { useGetProductsQuery } from "../slices/productApiSlice";
+import { useParams } from "react-router-dom";
 
 const HomeScreen = () => {
-  const { data: products, isLoading, error, refetch } = useGetProductsQuery();
+  const { pageNumber } = useParams();
+
+  const { data, isLoading, error, refetch } = useGetProductsQuery({
+    pageNumber,
+  });
 
   useEffect(() => {
     refetch();
@@ -22,7 +27,7 @@ const HomeScreen = () => {
         <>
           <Row>
             <h1 className="home-screen-title">latest products</h1>
-            {products.map((product) => {
+            {data.products.map((product) => {
               return (
                 <Col key={product._id} sm={12} md={6} lg={4} xl={3}>
                   <Product product={product} />

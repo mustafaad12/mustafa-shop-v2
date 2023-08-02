@@ -17,7 +17,9 @@ export class ProductController {
       .route("/")
       .get(
         asyncHandler(async (req, res) => {
-          const products = await this.service.getAllProducts();
+          const products = await this.service.getAllProducts({
+            pageNumber: req.query.pageNumber,
+          });
           if (products.length === 0) {
             res.status(404);
             throw new Error("Products not found");

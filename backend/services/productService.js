@@ -4,8 +4,16 @@ export class ProductService {
   // @desc Fetch All Products
   // @route GET / api/products
   // @ access Public
-  async getAllProducts() {
-    return await Product.find();
+  async getAllProducts({ pageNumber }) {
+    const pageLimit = 2;
+    const page = Number(pageNumber) || 1;
+    const count = await Product.countDocuments();
+
+    const products = await Product.find()
+      .limit(pageLimit)
+      .skip(pageLimit * (page - 1));
+
+    return { products, page, pages: Math.ceil(count / pageLimit) };
   }
   // @desc Fetch a Product
   // @route GET / api/products/:id
