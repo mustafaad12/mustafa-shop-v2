@@ -96,5 +96,14 @@ export class ProductController {
         res.status(201).json(reviewMessage);
       })
     );
+
+    this.router.get(
+      "/top/products",
+      asyncHandler(async (req, res) => {
+        const topProducts = await this.service.getTopProducts();
+
+        res.status(200).json(topProducts);
+      })
+    );
   }
 }

@@ -129,4 +129,13 @@ export class ProductService {
       throw { status: 404, message: "Product not found" };
     }
   }
+
+  // @desc Get top rated Products
+  // @route Get / api/products/top
+  // @ access Public
+  async getTopProducts() {
+    const products = await Product.find({}).sort({ rating: -1 }).limit(3);
+
+    return products;
+  }
 }

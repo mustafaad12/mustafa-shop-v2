@@ -6,6 +6,8 @@ import Loader from "../components/Loader";
 import { useGetProductsQuery } from "../slices/productApiSlice";
 import { useParams } from "react-router-dom";
 import Paginate from "../components/Paginate";
+import ProductCarousel from "../components/ProductCarousel";
+import { Link } from "react-router-dom";
 
 const HomeScreen = () => {
   const { pageNumber, keyword } = useParams();
@@ -21,6 +23,13 @@ const HomeScreen = () => {
 
   return (
     <>
+      {keyword ? (
+        <Link to="/" className="btn btn-dark">
+          Back
+        </Link>
+      ) : (
+        <ProductCarousel />
+      )}
       {isLoading ? (
         <Loader />
       ) : error ? (
