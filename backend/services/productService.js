@@ -4,12 +4,17 @@ export class ProductService {
   // @desc Fetch All Products
   // @route GET / api/products
   // @ access Public
-  async getAllProducts({ pageNumber }) {
-    const pageLimit = 2;
+  async getAllProducts({ keyword, pageNumber }) {
+    const pageLimit = 1;
     const page = Number(pageNumber) || 1;
-    const count = await Product.countDocuments();
 
-    const products = await Product.find()
+    const search_keyword = keyword
+      ? { name: { $regex: keyword, $options: "i" } }
+      : {};
+
+    const count = await Product.countDocuments({ ...search_keyword });
+
+    const products = await Product.find({ ...search_keyword })
       .limit(pageLimit)
       .skip(pageLimit * (page - 1));
 

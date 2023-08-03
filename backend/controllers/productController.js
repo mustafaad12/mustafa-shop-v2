@@ -18,6 +18,7 @@ export class ProductController {
       .get(
         asyncHandler(async (req, res) => {
           const products = await this.service.getAllProducts({
+            keyword: req.query.keyword,
             pageNumber: req.query.pageNumber,
           });
           if (products.length === 0) {
