@@ -71,6 +71,17 @@ components ---
   margin-left: 5px;
   color: #87cbb9;
 }
+.search-form {
+  display: flex;
+  align-items: center;
+}
+.search-input {
+  height: 80%;
+}
+.search-btn {
+  height: 80%;
+  margin-left: 10px;
+}
 
 /*  product card component */
 .product-card {

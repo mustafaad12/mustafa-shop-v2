@@ -5,7 +5,7 @@ export class ProductService {
   // @route GET / api/products
   // @ access Public
   async getAllProducts({ keyword, pageNumber }) {
-    const pageLimit = 1;
+    const pageLimit = 8;
     const page = Number(pageNumber) || 1;
 
     const search_keyword = keyword
