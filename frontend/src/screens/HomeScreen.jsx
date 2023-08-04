@@ -8,6 +8,7 @@ import { useParams } from "react-router-dom";
 import Paginate from "../components/Paginate";
 import ProductCarousel from "../components/ProductCarousel";
 import { Link } from "react-router-dom";
+import Meta from "../components/Meta";
 
 const HomeScreen = () => {
   const { pageNumber, keyword } = useParams();
@@ -37,6 +38,7 @@ const HomeScreen = () => {
       ) : (
         <>
           <Row>
+            <Meta />
             <h1 className="home-screen-title">latest products</h1>
             {data.products.map((product) => {
               return (
