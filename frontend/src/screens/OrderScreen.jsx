@@ -94,7 +94,7 @@ const OrderScreen = () => {
                           <Image
                             fluid
                             rounded
-                            src={`http://localhost:5000${item.image}`}
+                            src={`https://mustafa-shop.onrender.com${item.image}`}
                             alt={order.name}
                           />
                         </Col>

@@ -9,7 +9,7 @@ const Product = ({ product }) => {
       <Card className="product-card">
         <Link to={`/product/${product._id}`}>
           <Card.Img
-            src={`http://localhost:5000${product.image}`}
+            src={`https://mustafa-shop.onrender.com${product.image}`}
             variant="top"
           />
 

@@ -77,7 +77,7 @@ const PlaceOrderScreen = () => {
                       <Row>
                         <Col md={2}>
                           <Image
-                            src={`http://localhost:5000${item.image}`}
+                            src={`https://mustafa-shop.onrender.com${item.image}`}
                             alt={item.name}
                             fluid
                             rounded
