@@ -79,7 +79,7 @@ const ProductScreen = () => {
           <Row className="product-container">
             <Col md={5}>
               <Image
-                src={`https://mustafa-shop.onrender.com${product.image}`}
+                src={`https://mustafa-shop-v2.onrender.com${product.image}`}
                 alt={product.name}
                 fluid
               />

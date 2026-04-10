@@ -17,7 +17,7 @@ const ProductCarousel = () => {
         <Carousel.Item key={product._id}>
           <Link to={`/product/${product._id}`}>
             <Image
-              src={`https://mustafa-shop.onrender.com${product.image}`}
+              src={`https://mustafa-shop-v2.onrender.com${product.image}`}
               alt={product.name}
               fluid
             />
