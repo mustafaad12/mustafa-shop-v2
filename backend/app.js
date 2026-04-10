@@ -45,6 +45,6 @@ if (process.env.NODE_ENV === "production") {
 
 app.use([notFound, errorHandler]);
 
-const port = process.env.PORT;
+const port = process.env.PORT || 5000;
 
 app.listen(port, () => console.log(`API is running on port ${port}`));
